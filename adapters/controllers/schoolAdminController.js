@@ -3,10 +3,11 @@ import addSchoolAdmin from '../../application/use_cases/schoolAdmin/signup.js';
 export default function schoolAdminController(
   schoolAdminRepository,
   schoolAdminImpl,
-
+  authServiceInterface,
+  authServiceImpl,
 ) {
   const dbRepositorySchoolAdmin = schoolAdminRepository(schoolAdminImpl());
-
+  const authService = authServiceInterface(authServiceImpl());
   const addNewSchoolAdmin = async (req, res, next) => {
     try {
       console.log(req.body, 'its body');
@@ -36,6 +37,7 @@ export default function schoolAdminController(
         createdAt,
         updatedAt,
         dbRepositorySchoolAdmin,
+        authService,
       )
         .then((schoolAdmin) => res.status(200).json({ success: true, message: 'School Admin Signup successful', schoolAdmin }))
 
