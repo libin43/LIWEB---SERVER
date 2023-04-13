@@ -23,8 +23,19 @@ export default function schoolAdminRepositoryMongoDB() {
     return schoolAdmin;
   };
 
+  const setSchoolAdminOtp = async (email, otp, otpExpirationTime) => {
+    const schoolAdmin = await SchoolAdminModel.findOneAndUpdate(
+      { email },
+      { otp, otpExpirationTime },
+      { upsert: true, new: true },
+    )
+      .select('email');
+    return schoolAdmin;
+  };
+
   return {
     signup,
     getSchoolAdminByEmail,
+    setSchoolAdminOtp,
   };
 }
