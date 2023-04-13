@@ -8,7 +8,6 @@ export default function authController(
 ) {
   const dbRepositorySchoolAdmin = schoolAdminRepostiory(schoolAdminRepositoryMongoDB());
   const authService = authServiceInterface(authServiceImpl());
-  console.log(authService);
   const loginSchoolAdmin = async (req, res, next) => {
     try {
       console.log(req.body);

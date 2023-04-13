@@ -36,6 +36,13 @@ const schoolAdminSchema = new Schema({
   password: {
     type: String,
   },
+  otp: {
+    type: String,
+    default: 'Null',
+  },
+  otpExpirationTime: {
+    type: Date,
+  },
   role: {
     type: String,
     default: 'schoolAdmin',

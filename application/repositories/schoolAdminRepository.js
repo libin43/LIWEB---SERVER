@@ -9,8 +9,15 @@ export default function schoolAdminRepostiory(repository) {
     return repository.getSchoolAdminByEmail(email);
   };
 
+  const setSchoolAdminOtp = (
+    email,
+    otp,
+    otpExpirationTime,
+  ) => repository.setSchoolAdminOtp(email, otp, otpExpirationTime);
+
   return {
     signup,
     getSchoolAdminByEmail,
+    setSchoolAdminOtp,
   };
 }
