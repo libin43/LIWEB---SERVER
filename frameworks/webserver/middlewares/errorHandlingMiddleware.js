@@ -6,7 +6,7 @@ export default function errorHandlingMiddleware(err, req, res, next) {
   } else if (err.message === 'Otp Expired') {
     // Handle Otp Expire
     res.status(401).send({ error: 'Otp has been expired' });
-  } else if (err.message === 'Incorrect Password') {
+  } else if (err.message === 'Incorrect Password' || err.message === 'Incorrect Otp') {
     // Handle Unauthorised access
     res.status(401).send({ error: 'Unauthorised Access' });
   } else if (err.code === 11000 && err.keyPattern && err.keyPattern.schoolName === 1) {
@@ -15,7 +15,7 @@ export default function errorHandlingMiddleware(err, req, res, next) {
   } else if (err.code === 11000 && err.keyPattern && err.keyPattern.email === 1) {
     // Handle Duplicate Email
     res.status(409).send({ error: 'Email Already Exist' });
-  } else if (err.code === 11000 && err.keyPattern && err.keyPattern.phoneNumber === 1) {
+  } else if (err.code === 11000 && err.keyPattern && err.keyPattern.phone === 1) {
     // Handle Duplicate Phone Number
     res.status(409).send({ error: 'Phone Already Exist' });
   } else {

@@ -5,7 +5,7 @@ export default async function addSchoolAdmin(
   schoolName,
   afflNumber,
   email,
-  phoneNumber,
+  phone,
   address,
   pincode,
   schoolImage,
@@ -16,13 +16,12 @@ export default async function addSchoolAdmin(
   authService,
 ) {
   const hashPassword = await authService.encryptPassword(password);
-  console.log(hashPassword, 'hey');
   const newSchoolAdmin = schoolAdmin(
     schoolAdminName,
     schoolName,
     afflNumber,
     email,
-    phoneNumber,
+    phone,
     address,
     pincode,
     schoolImage,
@@ -30,6 +29,5 @@ export default async function addSchoolAdmin(
     createdAt,
     updatedAt,
   );
-  console.log(newSchoolAdmin, 'Libin hey');
   return dbRepositorySchoolAdmin.signup(newSchoolAdmin);
 }

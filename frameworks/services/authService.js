@@ -12,14 +12,14 @@ export default function authServiceImpl() {
 
   const comparePassword = (password, hashPassword) => bcrypt.compare(password, hashPassword);
 
-  const verifyToken = (token) => jwt.verify(token, config.jwtSecret);
-
   const generateToken = (payload) => jwt.sign(payload, config.jwtSecret, { expiresIn: 360000 });
+
+  const verifyToken = (token) => jwt.verify(token, config.jwtSecret);
 
   return {
     encryptPassword,
     comparePassword,
-    verifyToken,
     generateToken,
+    verifyToken,
   };
 }

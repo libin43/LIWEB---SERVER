@@ -19,7 +19,7 @@ const schoolAdminSchema = new Schema({
     unique: true,
     lowercase: true,
   },
-  phoneNumber: {
+  phone: {
     type: Number,
     required: true,
     unique: true,
@@ -50,8 +50,6 @@ const schoolAdminSchema = new Schema({
   createdAt: Date,
   updatedAt: Date,
 });
-
-schoolAdminSchema.index({ role: 1 });
 
 const SchoolAdminModel = mongoose.model('School Admin', schoolAdminSchema);
 
