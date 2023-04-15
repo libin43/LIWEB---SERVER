@@ -7,7 +7,7 @@ export default function schoolAdminRepositoryMongoDB() {
       schoolName: schoolAdminEntity.getSchoolName(),
       afflNumber: schoolAdminEntity.getAffiliationNumber(),
       email: schoolAdminEntity.getEmail(),
-      phoneNumber: schoolAdminEntity.getPhoneNumber(),
+      phone: schoolAdminEntity.getPhoneNumber(),
       address: schoolAdminEntity.getAddress(),
       pincode: schoolAdminEntity.getPincode(),
       schoolImage: schoolAdminEntity.getSchoolImage(),

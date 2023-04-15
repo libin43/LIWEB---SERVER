@@ -1,13 +1,7 @@
 export default function schoolAdminRepostiory(repository) {
-  const signup = (schoolAdmin) => {
-    console.log(schoolAdmin, 'come from db.singup');
-    return repository.signup(schoolAdmin);
-  };
+  const signup = (schoolAdmin) => repository.signup(schoolAdmin);
 
-  const getSchoolAdminByEmail = (email) => {
-    console.log(email, 'email');
-    return repository.getSchoolAdminByEmail(email);
-  };
+  const getSchoolAdminByEmail = (email) => repository.getSchoolAdminByEmail(email);
 
   const setSchoolAdminOtp = (
     email,

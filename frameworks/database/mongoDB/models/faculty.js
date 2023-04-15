@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const { Schema } = mongoose;
 const facultySchema = new Schema({
-  facultyname: {
+  facultyName: {
     type: String,
     required: true,
     unique: true,
@@ -13,15 +13,32 @@ const facultySchema = new Schema({
     unique: true,
     lowercase: true,
   },
+  phone: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  dateOfBirth: {
+    type: Date,
+    required: true,
+  },
+  dateOfJoin: {
+    type: Date,
+    required: true,
+  },
   role: {
     type: String,
     default: 'faculty',
   },
+  schoolName: {
+    type: String,
+  },
+  password: {
+    type: String,
+  },
   createdAt: Date,
   updatedAt: Date,
 });
-
-facultySchema.index({ role: 1 });
 
 const FacultyModel = mongoose.model('Faculty', facultySchema);
 

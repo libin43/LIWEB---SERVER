@@ -6,14 +6,14 @@ export default function authServiceInterface(service) {
     hashPassword,
   ) => service.comparePassword(password, hashPassword);
 
-  const verifyToken = (token) => service.verifyToken(token);
-
   const generateToken = (payload) => service.generateToken(payload);
+
+  const verifyToken = (token) => service.verifyToken(token);
 
   return {
     encryptPassword,
     comparePassword,
-    verifyToken,
     generateToken,
+    verifyToken,
   };
 }
