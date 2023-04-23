@@ -15,6 +15,7 @@
         "no-console": "off",
         "no-underscore-dangle": ["error", { "allowAfterThis": true, "allow": ["_id"] }],
         "import/extensions": "off",
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",
+        "prefer-destructuring": "off"
     }
 }

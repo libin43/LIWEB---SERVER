@@ -33,9 +33,16 @@ export default function schoolAdminRepositoryMongoDB() {
     return schoolAdmin;
   };
 
+  const getSchoolAdminById = async (_id) => {
+    const schoolAdmin = await SchoolAdminModel.findOne({ _id })
+      .select('schoolAdminName schoolName role');
+    return schoolAdmin;
+  };
+
   return {
     signup,
     getSchoolAdminByEmail,
     setSchoolAdminOtp,
+    getSchoolAdminById,
   };
 }

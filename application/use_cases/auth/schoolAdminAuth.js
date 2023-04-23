@@ -5,6 +5,7 @@ export default async function schoolAdminAuth(
   authService,
 ) {
   const schoolAdmin = await dbRepositorySchoolAdmin.getSchoolAdminByEmail(email);
+  console.log(schoolAdmin, 'schodfoisjdfj');
   if (!schoolAdmin) {
     throw new Error('Invalid Credentials');
   }
@@ -12,13 +13,17 @@ export default async function schoolAdminAuth(
   if (!hashSuccess) {
     throw new Error('Incorrect Password');
   }
-  const { role } = schoolAdmin;
+  const {
+    _id, schoolAdminName, schoolName, role,
+  } = schoolAdmin;
   const token = await authService.generateToken(
     { id: schoolAdmin._id, schoolAdminName: schoolAdmin.schoolAdminName, role },
   );
-  console.log(token, 'its token');
   return {
     token,
     role,
+    schoolAdminName,
+    schoolName,
+    _id,
   };
 }
