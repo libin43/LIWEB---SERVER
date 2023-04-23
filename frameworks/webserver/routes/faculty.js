@@ -3,6 +3,7 @@ import facultyRepository from '../../../application/repositories/facultyReposito
 import authServiceInterface from '../../../application/services/authServiceInterface.js';
 import facultyRepositoryMongoDB from '../../database/mongoDB/repositories/facultyRepositoryMongoDB.js';
 import authServiceImpl from '../../services/authService.js';
+import authMiddleware from '../middlewares/authMiddleware.js';
 
 export default function facultyRouter(express) {
   const router = express.Router();
@@ -13,6 +14,8 @@ export default function facultyRouter(express) {
     authServiceInterface,
     authServiceImpl,
   );
+  // GET endpoints
+  router.route('/getFaculty').get(authMiddleware, controller.getAllFacultyName);
   // POST enpdpoints
   router.route('/addFaculty').post(controller.addNewFaculty);
   return router;

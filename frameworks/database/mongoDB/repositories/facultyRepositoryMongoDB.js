@@ -15,7 +15,13 @@ export default function facultyRepositoryMongoDB() {
     });
     return newFaculty.save();
   };
+
+  const getFacultyName = async () => {
+    const faculty = await FacultyModel.find().select('facultyName');
+    return faculty;
+  };
   return {
     signup,
+    getFacultyName,
   };
 }

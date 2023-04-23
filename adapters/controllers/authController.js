@@ -10,7 +10,7 @@ export default function authController(
   const authService = authServiceInterface(authServiceImpl());
   const loginSchoolAdmin = async (req, res, next) => {
     try {
-      console.log(req.body);
+      console.log(req.body, '..........');
       const {
         email,
         password,
@@ -24,7 +24,13 @@ export default function authController(
       )
         .then((response) => res.status(200).json(
           {
-            success: true, message: 'Login Successfull', token: response.token, role: response.role,
+            success: true,
+            message: 'Login Successfull',
+            id: response._id,
+            token: response.token,
+            role: response.role,
+            schoolAdminName: response.schoolAdminName,
+            schoolName: response.schoolName,
           },
         ))
         .catch((err) => {
