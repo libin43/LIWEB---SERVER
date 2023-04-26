@@ -5,8 +5,7 @@ export default function faculty(
   dateOfBirth,
   dateOfJoin,
   password,
-  createdAt,
-  updatedAt,
+  schoolID,
 ) {
   return {
     getFacultyName: () => facultyName,
@@ -15,7 +14,6 @@ export default function faculty(
     getDateOfBirth: () => dateOfBirth,
     getDateOfJoin: () => dateOfJoin,
     getPassword: () => password,
-    getCreatedAt: () => createdAt,
-    getUpdatedAt: () => updatedAt,
+    getSchoolId: () => schoolID,
   };
 }

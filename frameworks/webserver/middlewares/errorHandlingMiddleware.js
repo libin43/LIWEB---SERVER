@@ -13,7 +13,6 @@ export default function errorHandlingMiddleware(err, req, res, next) {
     res.status(401).send({ error: 'Unauthorised Access' });
   } else if (err.message === 'invalid token' || err.message === 'jwt malformed' || err.message === 'jwt must be provided') {
     // Handle Unauthorised access
-    console.log('mtttttttttttttttttttttttttt');
     res.status(401).send({ error: 'Unauthorised Access' });
   } else if (err.code === 11000 && err.keyPattern && err.keyPattern.schoolName === 1) {
     // Handle Duplicate School Name
@@ -27,6 +26,9 @@ export default function errorHandlingMiddleware(err, req, res, next) {
   } else if (err.message === 'Date Range Already Exist') {
     // Handle Duplicate Date ranges
     res.status(409).send({ error: 'Selected date range falls within existing date range' });
+  } else if (err.message === 'Class Already Exist') {
+    // Handle Duplicate Classes
+    res.status(409).send({ error: 'Classroom Already Exist in this academic year' });
   } else {
     // Handle other errors
     res.status(500).send({ error: 'Something already broke!' });
