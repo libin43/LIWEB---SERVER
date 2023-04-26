@@ -1,7 +1,9 @@
 import facultyController from '../../../adapters/controllers/facultyController.js';
 import facultyRepository from '../../../application/repositories/facultyRepository.js';
-import authServiceInterface from '../../../application/services/authServiceInterface.js';
 import facultyRepositoryMongoDB from '../../database/mongoDB/repositories/facultyRepositoryMongoDB.js';
+import academicYearRepository from '../../../application/repositories/academicYearRepository.js';
+import academicYearRepositoryMongoDB from '../../database/mongoDB/repositories/academicYearRepositoryMongoDB.js';
+import authServiceInterface from '../../../application/services/authServiceInterface.js';
 import authServiceImpl from '../../services/authService.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
 
@@ -11,12 +13,14 @@ export default function facultyRouter(express) {
   const controller = facultyController(
     facultyRepository,
     facultyRepositoryMongoDB,
+    academicYearRepository,
+    academicYearRepositoryMongoDB,
     authServiceInterface,
     authServiceImpl,
   );
   // GET endpoints
-  router.route('/getFaculty').get(authMiddleware, controller.getAllFacultyName);
+  router.route('/get_faculty_academic_year').get(authMiddleware, controller.getFacultyNameAcademicYear);
   // POST enpdpoints
-  router.route('/addFaculty').post(controller.addNewFaculty);
+  router.route('/addFaculty').post(authMiddleware, controller.addNewFaculty);
   return router;
 }

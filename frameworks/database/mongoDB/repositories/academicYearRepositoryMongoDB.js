@@ -8,10 +8,10 @@ export default function academicYearRepositoryMongoDB() {
         $and: [
           { startDate: { $lte: academicYearEntity.getEndDate() } },
           { endDate: { $gte: academicYearEntity.getStartDate() } },
+          { schoolID: { $eq: academicYearEntity.getSchoolID() } },
         ],
       },
     );
-    console.log(isValidLimit, 'in mongo');
     return isValidLimit;
   };
   const setNewAcademicYear = (academicYearEntity) => {
@@ -23,8 +23,15 @@ export default function academicYearRepositoryMongoDB() {
     return newAcademicYear.save();
   };
 
+  const getAcademicYear = async (schoolID) => {
+    const academicYear = await AcademicYearModel.find({ schoolID });
+    console.log(academicYear, 'its academiocyeare');
+    return academicYear;
+  };
+
   return {
     isAcademicYearValidLimit,
     setNewAcademicYear,
+    getAcademicYear,
   };
 }

@@ -1,6 +1,6 @@
 export default function facultyRepository(repository) {
   const signup = (faculty) => repository.signup(faculty);
-  const getFacultyName = () => repository.getFacultyName();
+  const getFacultyName = (schoolID) => repository.getFacultyName(schoolID);
 
   return {
     signup,

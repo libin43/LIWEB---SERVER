@@ -7,12 +7,10 @@ const academicYearSchema = new Schema(
     startDate: {
       type: Date,
       required: true,
-      unique: true,
     },
     endDate: {
       type: Date,
       required: true,
-      unique: true,
     },
     schoolID: {
       type: Schema.Types.ObjectId,

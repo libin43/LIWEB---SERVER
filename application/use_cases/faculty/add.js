@@ -6,6 +6,7 @@ export default async function addFaculty(
   phone,
   dateOfBirth,
   dateOfJoin,
+  schoolId,
   dbRepositoryFaculty,
   authService,
 ) {
@@ -23,6 +24,7 @@ export default async function addFaculty(
     dateOfBirthObject,
     dateOfJoinObject,
     hashPassword,
+    schoolId,
   );
   return dbRepositoryFaculty.signup(newFaculty);
 }

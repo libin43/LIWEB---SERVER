@@ -9,15 +9,16 @@ export default function facultyRepositoryMongoDB() {
       dateOfBirth: facultyEntity.getDateOfBirth(),
       dateOfJoin: facultyEntity.getDateOfJoin(),
       password: facultyEntity.getPassword(),
-      createdAt: facultyEntity.getCreatedAt(),
-      updatedAt: facultyEntity.getUpdatedAt(),
+      schoolID: facultyEntity.getSchoolId(),
 
     });
     return newFaculty.save();
   };
 
-  const getFacultyName = async () => {
-    const faculty = await FacultyModel.find().select('facultyName');
+  const getFacultyName = async (schoolID) => {
+    console.log(schoolID, 'school id');
+    const faculty = await FacultyModel.find({ schoolID }).select('facultyName');
+    console.log(faculty, 'its faculty name');
     return faculty;
   };
   return {

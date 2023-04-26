@@ -1,13 +1,17 @@
+import getAcademicYear from '../../application/use_cases/academicYear/getAcademicYear.js';
 import addFaculty from '../../application/use_cases/faculty/add.js';
 import getName from '../../application/use_cases/faculty/getName.js';
 
 export default function facultyController(
   facultyRepository,
   facultyRepositoryImpl,
+  academicYearRepository,
+  academicYearImpl,
   authServiceInterface,
   authServiceImpl,
 ) {
   const dbRepositoryFaculty = facultyRepository(facultyRepositoryImpl());
+  const dbRepositoryAcademicYear = academicYearRepository(academicYearImpl());
   const authService = authServiceInterface(authServiceImpl());
   const addNewFaculty = async (req, res, next) => {
     try {
@@ -19,12 +23,14 @@ export default function facultyController(
         dateOfBirth,
         dateOfJoin,
       } = req.body;
+      const schoolId = req.schoolAdmin;
       addFaculty(
         facultyName,
         email,
         phone,
         dateOfBirth,
         dateOfJoin,
+        schoolId,
         dbRepositoryFaculty,
         authService,
       )
@@ -36,13 +42,16 @@ export default function facultyController(
     }
   };
 
-  const getAllFacultyName = async (req, res, next) => {
-    console.log('hititng in get faculty');
+  const getFacultyNameAcademicYear = async (req, res, next) => {
+    console.log('htiing in getFacultyNameAcademicYear');
     try {
-      getName(
-        dbRepositoryFaculty,
-      )
-        .then((facultyName) => res.status(200).json({ success: true, message: 'Faculty name fetched successfully', facultyName }))
+      const schoolId = req.schoolAdmin;
+      Promise.all([
+        getName(schoolId, dbRepositoryFaculty),
+        getAcademicYear(schoolId, dbRepositoryAcademicYear),
+      ]).then(([facultyName, academicYear]) => res.status(200).json({
+        success: true, message: 'Faculty name and academic year fetched successfully', facultyName, academicYear,
+      }))
         .catch((err) => next(err));
     } catch (error) {
       console.log(error);
@@ -50,6 +59,6 @@ export default function facultyController(
   };
   return {
     addNewFaculty,
-    getAllFacultyName,
+    getFacultyNameAcademicYear,
   };
 }
