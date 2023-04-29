@@ -20,6 +20,10 @@ const classSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true,
     },
+    studentSheet: {
+      type: [Schema.Types.ObjectId],
+      default: [],
+    },
     status: {
       type: String,
       default: 'active',
