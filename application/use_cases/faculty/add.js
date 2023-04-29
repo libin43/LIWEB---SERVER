@@ -6,14 +6,13 @@ export default async function addFaculty(
   phone,
   dateOfBirth,
   dateOfJoin,
-  schoolId,
+  schoolID,
   dbRepositoryFaculty,
   authService,
 ) {
-  console.log(dateOfBirth, dateOfJoin);
   const hashPassword = await authService.encryptPassword(dateOfBirth);
   const dobParts = dateOfBirth.split('/');
-  const dojParts = dateOfBirth.split('/');
+  const dojParts = dateOfJoin.split('/');
   const dateOfBirthObject = new Date(dobParts[2], dobParts[1], dobParts[0]);
   const dateOfJoinObject = new Date(dojParts[2], dojParts[1], dojParts[0]);
 
@@ -24,7 +23,7 @@ export default async function addFaculty(
     dateOfBirthObject,
     dateOfJoinObject,
     hashPassword,
-    schoolId,
+    schoolID,
   );
   return dbRepositoryFaculty.signup(newFaculty);
 }

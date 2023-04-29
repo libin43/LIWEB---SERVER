@@ -1,8 +1,8 @@
 export default function classRoom(
   className,
   academicYearID,
-  facultyID,
   schoolID,
+  facultyID = null,
 ) {
   return {
     getClassName: () => className,

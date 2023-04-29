@@ -22,8 +22,40 @@ export default function classRepositoryMongoDB() {
     });
     return newClass.save();
   };
+
+  const getClassByAcademicYearIdSchoolId = async (academicYearID, schoolID) => {
+    const classRoom = await ClassModel.find(
+      {
+        $and: [
+          { academicYearID },
+          { schoolID },
+        ],
+      },
+    )
+      .select('className');
+    return classRoom;
+  };
+
+  const insertStudentToClass = async (studentID, classID, academicYearID) => {
+    const classRoom = await ClassModel.findOneAndUpdate(
+      {
+        $and: [
+          { _id: classID },
+          { academicYearID },
+        ],
+      },
+      {
+        $push: { studentSheet: studentID },
+      },
+      { new: true },
+    )
+      .select('className');
+    return classRoom;
+  };
   return {
     classExist,
     setNewClassRoom,
+    getClassByAcademicYearIdSchoolId,
+    insertStudentToClass,
   };
 }

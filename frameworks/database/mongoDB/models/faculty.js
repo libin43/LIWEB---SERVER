@@ -19,6 +19,9 @@ const facultySchema = new Schema(
       required: true,
       unique: true,
     },
+    facultyImage: {
+      type: String,
+    },
     dateOfBirth: {
       type: Date,
       required: true,
@@ -27,15 +30,15 @@ const facultySchema = new Schema(
       type: Date,
       required: true,
     },
-    role: {
-      type: String,
-      default: 'faculty',
-    },
-    schoolName: {
-      type: String,
-    },
     password: {
       type: String,
+    },
+    otp: {
+      type: String,
+      default: 'Null',
+    },
+    otpExpirationTime: {
+      type: Date,
     },
     status: {
       type: String,
@@ -44,6 +47,14 @@ const facultySchema = new Schema(
     schoolID: {
       type: Schema.Types.ObjectId,
       required: true,
+    },
+    block: {
+      type: String,
+      default: 'false',
+    },
+    role: {
+      type: String,
+      default: 'faculty',
     },
   },
   { timestamps: true },

@@ -10,11 +10,10 @@ export default async function addClass(
   const newClass = classRoom(
     className,
     academicYearID,
-    facultyID,
     schoolID,
+    facultyID,
   );
   const classExist = await dbRepositoryClass.classExist(newClass);
-  console.log(classExist, 'class exisr');
   if (classExist) {
     throw new Error('Class Already Exist');
   }

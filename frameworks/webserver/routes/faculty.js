@@ -19,7 +19,7 @@ export default function facultyRouter(express) {
     authServiceImpl,
   );
   // GET endpoints
-  router.route('/get_faculty_academic_year').get(authMiddleware, controller.getFacultyNameAcademicYear);
+
   // POST enpdpoints
   router.route('/addFaculty').post(authMiddleware, controller.addNewFaculty);
   return router;

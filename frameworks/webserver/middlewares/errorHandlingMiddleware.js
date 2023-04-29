@@ -1,6 +1,4 @@
 export default function errorHandlingMiddleware(err, req, res, next) {
-  console.log('midleware called');
-  console.log(err, 'its an error boy');
   console.error(err.message, next, 'this is errrrrrr');
   if (err.message === 'Invalid Credentials') {
     // Handle JSON parsing errors or syntax errors
@@ -29,6 +27,12 @@ export default function errorHandlingMiddleware(err, req, res, next) {
   } else if (err.message === 'Class Already Exist') {
     // Handle Duplicate Classes
     res.status(409).send({ error: 'Classroom Already Exist in this academic year' });
+  } else if (err.message === 'Student already active') {
+    // Handle Duplicate Classes
+    res.status(409).send({ error: 'Student Already Exist' });
+  } else if (err.message === 'No Classroom Found') {
+    // Handle Non-existing Classes
+    res.status(404).send({ error: 'No classroom found' });
   } else {
     // Handle other errors
     res.status(500).send({ error: 'Something already broke!' });

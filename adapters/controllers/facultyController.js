@@ -1,6 +1,4 @@
-import getAcademicYear from '../../application/use_cases/academicYear/getAcademicYear.js';
 import addFaculty from '../../application/use_cases/faculty/add.js';
-import getName from '../../application/use_cases/faculty/getName.js';
 
 export default function facultyController(
   facultyRepository,
@@ -11,7 +9,7 @@ export default function facultyController(
   authServiceImpl,
 ) {
   const dbRepositoryFaculty = facultyRepository(facultyRepositoryImpl());
-  const dbRepositoryAcademicYear = academicYearRepository(academicYearImpl());
+  // const dbRepositoryAcademicYear = academicYearRepository(academicYearImpl());
   const authService = authServiceInterface(authServiceImpl());
   const addNewFaculty = async (req, res, next) => {
     try {
@@ -42,23 +40,7 @@ export default function facultyController(
     }
   };
 
-  const getFacultyNameAcademicYear = async (req, res, next) => {
-    console.log('htiing in getFacultyNameAcademicYear');
-    try {
-      const schoolId = req.schoolAdmin;
-      Promise.all([
-        getName(schoolId, dbRepositoryFaculty),
-        getAcademicYear(schoolId, dbRepositoryAcademicYear),
-      ]).then(([facultyName, academicYear]) => res.status(200).json({
-        success: true, message: 'Faculty name and academic year fetched successfully', facultyName, academicYear,
-      }))
-        .catch((err) => next(err));
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return {
     addNewFaculty,
-    getFacultyNameAcademicYear,
   };
 }
