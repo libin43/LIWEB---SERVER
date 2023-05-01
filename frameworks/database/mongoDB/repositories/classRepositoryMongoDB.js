@@ -52,10 +52,24 @@ export default function classRepositoryMongoDB() {
       .select('className');
     return classRoom;
   };
+
+  const multipleClassExist = async (classEntity) => {
+    const classRooms = await ClassModel.find(
+      {
+        $and: [
+          { className: { $in: classEntity.getClassName() } },
+          { schoolID: { $eq: classEntity.getSchoolID() } },
+          { academicYearID: { $eq: classEntity.getAcademicYearID() } },
+        ],
+      },
+    );
+    return classRooms;
+  };
   return {
     classExist,
     setNewClassRoom,
     getClassByAcademicYearIdSchoolId,
     insertStudentToClass,
+    multipleClassExist,
   };
 }

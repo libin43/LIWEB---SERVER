@@ -11,10 +11,13 @@ export default function classRespository(repository) {
     academicYearID,
   ) => repository.insertStudentToClass(studentID, classID, academicYearID);
 
+  const multipleClassExist = (classRooms) => repository.multipleClassExist(classRooms);
+
   return {
     classExist,
     setNewClassRoom,
     getClassByAcademicYearIdSchoolId,
     insertStudentToClass,
+    multipleClassExist,
   };
 }

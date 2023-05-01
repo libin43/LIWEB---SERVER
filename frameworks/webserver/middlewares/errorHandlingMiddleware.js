@@ -30,9 +30,17 @@ export default function errorHandlingMiddleware(err, req, res, next) {
   } else if (err.message === 'Student already active') {
     // Handle Duplicate Classes
     res.status(409).send({ error: 'Student Already Exist' });
+  } else if (err.message === 'Subject Already Exist') {
+    // Handle Duplicate Classes
+    res.status(409).send({ error: 'Subject Already Exist' });
   } else if (err.message === 'No Classroom Found') {
     // Handle Non-existing Classes
     res.status(404).send({ error: 'No classroom found' });
+  } else if (err.message.includes('Classes not found')) {
+    // Handle Non-existing Multiple Classes
+    const notFoundClasses = err.message.split(': ')[1];
+    const errorMessage = `Class not found: ${notFoundClasses}`;
+    res.status(404).send({ error: errorMessage });
   } else {
     // Handle other errors
     res.status(500).send({ error: 'Something already broke!' });
