@@ -5,6 +5,7 @@ import getClassById from '../../application/use_cases/schoolAdmin/getClassById.j
 import getName from '../../application/use_cases/faculty/getName.js';
 import findById from '../../application/use_cases/schoolAdmin/findById.js';
 import addSchoolAdmin from '../../application/use_cases/schoolAdmin/signup.js';
+import addSubject from '../../application/use_cases/schoolAdmin/addSubject.js';
 
 export default function schoolAdminController(
   schoolAdminRepository,
@@ -15,6 +16,8 @@ export default function schoolAdminController(
   academicYearImpl,
   classRepository,
   classImpl,
+  subjectRepository,
+  subjectImpl,
   authServiceInterface,
   authServiceImpl,
 ) {
@@ -22,6 +25,7 @@ export default function schoolAdminController(
   const dbRepositoryFaculty = facultyRepository(facultyImpl());
   const dbRepositoryAcademicYear = academicYearRepository(academicYearImpl());
   const dbRepositoryClass = classRepository(classImpl());
+  const dbRepositorySubject = subjectRepository(subjectImpl());
   const authService = authServiceInterface(authServiceImpl());
   const addNewSchoolAdmin = async (req, res, next) => {
     try {
@@ -170,6 +174,36 @@ export default function schoolAdminController(
     }
   };
 
+  const addNewSubject = async (req, res, next) => {
+    console.log('subject');
+    try {
+      console.log(req.body, 'req got in ad');
+      const {
+        subjectName,
+        subjectCode,
+        academicYearID,
+        facultyID,
+        selectedClass,
+      } = req.body;
+      const schoolId = req.schoolAdmin;
+      console.log(selectedClass, subjectCode);
+      addSubject(
+        selectedClass,
+        subjectName,
+        subjectCode,
+        academicYearID,
+        facultyID,
+        schoolId,
+        dbRepositorySubject,
+        dbRepositoryClass,
+      )
+        .then((subject) => res.status(200).json({ success: true, message: 'Subject added succesfully', subject }))
+        .catch((err) => next(err));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     addNewSchoolAdmin,
     addNewAcademicYear,
@@ -178,5 +212,6 @@ export default function schoolAdminController(
     getAcademicYearData,
     addNewClassRoom,
     getClassRoomDataByAcademicYear,
+    addNewSubject,
   };
 }
