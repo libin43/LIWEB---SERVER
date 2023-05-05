@@ -1,13 +1,11 @@
 export default function subject(
-  subjectClasses,
-  subjectName,
-  subjectCode,
   academicYearID,
-  facultyID,
   schoolID,
+  subjectCode = null,
+  subjectName = null,
+  facultyID = null,
 ) {
   return {
-    getSubjectClasses: () => subjectClasses,
     getSubjectName: () => subjectName,
     getSubjectCode: () => subjectCode,
     getAcademicYearID: () => academicYearID,

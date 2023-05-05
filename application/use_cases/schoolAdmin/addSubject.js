@@ -27,16 +27,17 @@ export default async function addSubject(
   const subjectClasses = classExist.map((cls) => cls._id);
 
   const newSubject = subject(
-    subjectClasses,
-    subjectName,
-    subjectCode,
     academicYearID,
-    facultyID,
     schoolID,
+    subjectCode,
+    subjectName,
+    facultyID,
   );
   const subjectExist = await dbRepositorySubject.subjectExist(newSubject);
   if (subjectExist) {
     throw new Error('Subject Already Exist');
   }
-  return dbRepositorySubject.setNewSubject(newSubject);
+  const subjectAdded = await dbRepositorySubject.setNewSubject(newSubject);
+  const classesWithSubject = { subjectAdded, subjectClasses };
+  return classesWithSubject;
 }

@@ -7,11 +7,13 @@ import academicYearRepository from '../../../application/repositories/academicYe
 import academicYearRepositoryMongoDB from '../../database/mongoDB/repositories/academicYearRepositoryMongoDB.js';
 import classRespository from '../../../application/repositories/classRepository.js';
 import classRepositoryMongoDB from '../../database/mongoDB/repositories/classRepositoryMongoDB.js';
+import subjectRepository from '../../../application/repositories/subjectRepository.js';
+import subjectRepositoryMongoDB from '../../database/mongoDB/repositories/subjectRepositoryMongoDB.js';
+import examRepository from '../../../application/repositories/examRepository.js';
+import examRepositoryMongoDB from '../../database/mongoDB/repositories/examRepositoryMongoDB.js';
 import authServiceInterface from '../../../application/services/authServiceInterface.js';
 import authServiceImpl from '../../services/authService.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
-import subjectRepository from '../../../application/repositories/subjectRepository.js';
-import subjectRepositoryMongoDB from '../../database/mongoDB/repositories/subjectRepositoryMongoDB.js';
 
 export default function schoolAdminRouter(express) {
   const router = express.Router();
@@ -27,6 +29,8 @@ export default function schoolAdminRouter(express) {
     classRepositoryMongoDB,
     subjectRepository,
     subjectRepositoryMongoDB,
+    examRepository,
+    examRepositoryMongoDB,
     authServiceInterface,
     authServiceImpl,
   );
@@ -34,12 +38,14 @@ export default function schoolAdminRouter(express) {
   router.route('/getInfo').get(authMiddleware, controller.getSchoolAdminInfo);
   router.route('/get_faculty_academic_year').get(authMiddleware, controller.getFacultyNameAcademicYear);
   router.route('/get_academic_year').get(authMiddleware, controller.getAcademicYearData);
+  router.route('/get_class_room/:id').get(authMiddleware, controller.getClassRoomDataByAcademicYear);
+  router.route('/get_subject/:id').get(authMiddleware, controller.getSubjectDataByAcademicYear);
 
   // POST enpdpoints
   router.route('/signup').post(controller.addNewSchoolAdmin);
   router.route('/addAcademicYear').post(authMiddleware, controller.addNewAcademicYear);
   router.route('/add_class').post(authMiddleware, controller.addNewClassRoom);
-  router.route('/get_class_room').post(authMiddleware, controller.getClassRoomDataByAcademicYear);
   router.route('/add_subject').post(authMiddleware, controller.addNewSubject);
+  router.route('/add_exam').post(authMiddleware, controller.addNewExam);
   return router;
 }

@@ -13,11 +13,18 @@ export default function classRespository(repository) {
 
   const multipleClassExist = (classRooms) => repository.multipleClassExist(classRooms);
 
+  const insertSubjectToMultipleClasses = (
+    subjectID,
+    classID,
+    academicYearID,
+  ) => repository.insertSubjectToMultipleClasses(subjectID, classID, academicYearID);
+
   return {
     classExist,
     setNewClassRoom,
     getClassByAcademicYearIdSchoolId,
     insertStudentToClass,
     multipleClassExist,
+    insertSubjectToMultipleClasses,
   };
 }

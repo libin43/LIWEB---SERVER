@@ -3,11 +3,12 @@ export default function academicYearRepository(repository) {
     academicYear,
   ) => repository.isAcademicYearValidLimit(academicYear);
   const setNewAcademicYear = (academicYear) => repository.setNewAcademicYear(academicYear);
-  const getAcademicYear = (schoolID) => repository.getAcademicYear(schoolID);
-
+  const getAllAcademicYear = (schoolID) => repository.getAllAcademicYear(schoolID);
+  const getAcademicYearByID = (academicYearID) => repository.getAcademicYearByID(academicYearID);
   return {
     isAcademicYearValidLimit,
     setNewAcademicYear,
-    getAcademicYear,
+    getAllAcademicYear,
+    getAcademicYearByID,
   };
 }

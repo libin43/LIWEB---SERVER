@@ -65,11 +65,29 @@ export default function classRepositoryMongoDB() {
     );
     return classRooms;
   };
+
+  const insertSubjectToMultipleClasses = async (subjectID, classID, academicYearID) => {
+    console.log(classID, 'class id in insert subject to multui');
+    const classRoom = await ClassModel.updateMany(
+      {
+        $and: [
+          { _id: classID },
+          { academicYearID },
+        ],
+      },
+      {
+        $push: { subjectSheet: subjectID },
+      },
+      { new: true },
+    );
+    return classRoom;
+  };
   return {
     classExist,
     setNewClassRoom,
     getClassByAcademicYearIdSchoolId,
     insertStudentToClass,
     multipleClassExist,
+    insertSubjectToMultipleClasses,
   };
 }

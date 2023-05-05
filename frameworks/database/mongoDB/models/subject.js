@@ -14,7 +14,6 @@ const subjectSchema = new Schema({
     type: [Schema.Types.ObjectId],
     default: [],
     ref: 'Class',
-    required: true,
   },
   academicYearID: {
     type: Schema.Types.ObjectId,

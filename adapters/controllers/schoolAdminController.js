@@ -6,6 +6,9 @@ import getName from '../../application/use_cases/faculty/getName.js';
 import findById from '../../application/use_cases/schoolAdmin/findById.js';
 import addSchoolAdmin from '../../application/use_cases/schoolAdmin/signup.js';
 import addSubject from '../../application/use_cases/schoolAdmin/addSubject.js';
+import addSubjectToClasses from '../../application/use_cases/schoolAdmin/addSubjectToClasses.js';
+import getSubjectById from '../../application/use_cases/schoolAdmin/getSubjectById.js';
+import addExam from '../../application/use_cases/schoolAdmin/addExam.js';
 
 export default function schoolAdminController(
   schoolAdminRepository,
@@ -18,6 +21,8 @@ export default function schoolAdminController(
   classImpl,
   subjectRepository,
   subjectImpl,
+  examRepository,
+  examImpl,
   authServiceInterface,
   authServiceImpl,
 ) {
@@ -26,6 +31,7 @@ export default function schoolAdminController(
   const dbRepositoryAcademicYear = academicYearRepository(academicYearImpl());
   const dbRepositoryClass = classRepository(classImpl());
   const dbRepositorySubject = subjectRepository(subjectImpl());
+  const dbRepositoryExam = examRepository(examImpl());
   const authService = authServiceInterface(authServiceImpl());
   const addNewSchoolAdmin = async (req, res, next) => {
     try {
@@ -90,7 +96,7 @@ export default function schoolAdminController(
 
   const getSchoolAdminInfo = async (req, res, next) => {
     try {
-      console.log('hitting in getinfo');
+      console.log('HITTING IN GET ADMIN INFO');
       findById(
         req.schoolAdmin,
         dbRepositorySchoolAdmin,
@@ -158,8 +164,8 @@ export default function schoolAdminController(
   const getClassRoomDataByAcademicYear = async (req, res, next) => {
     console.log('hit in get classroom');
     try {
-      console.log(req.body);
-      const { academicYearID } = req.body;
+      const academicYearID = req.params.id;
+      console.log(academicYearID);
       const schoolId = req.schoolAdmin;
       getClassById(
         academicYearID,
@@ -197,7 +203,60 @@ export default function schoolAdminController(
         dbRepositorySubject,
         dbRepositoryClass,
       )
-        .then((subject) => res.status(200).json({ success: true, message: 'Subject added succesfully', subject }))
+        .then((
+          subject,
+        ) => addSubjectToClasses(
+          subject.subjectAdded._id,
+          subject.subjectClasses,
+          academicYearID,
+          dbRepositoryClass,
+        ))
+        .then((subject) => res.status(200).json({ success: true, message: `Subject added to ${selectedClass} succesfully`, subject }))
+        .catch((err) => next(err));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getSubjectDataByAcademicYear = async (req, res, next) => {
+    try {
+      const academicYearID = req.params.id;
+      console.log(academicYearID);
+      const schoolId = req.schoolAdmin;
+      getSubjectById(
+        academicYearID,
+        schoolId,
+        dbRepositorySubject,
+      )
+        .then((subject) => res.status(200).json({ success: true, message: 'Subjects fetched succesfully', subject }))
+        .catch((err) => next(err));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addNewExam = async (req, res, next) => {
+    console.log('hitting in add exam');
+    try {
+      console.log(req.body);
+      const {
+        examName,
+        examDate,
+        academicYearID,
+        selectedSubject,
+      } = req.body;
+      const schoolId = req.schoolAdmin;
+      addExam(
+        academicYearID,
+        schoolId,
+        selectedSubject,
+        examDate,
+        examName,
+        dbRepositoryExam,
+        dbRepositorySubject,
+        dbRepositoryAcademicYear,
+      )
+        .then((exam) => res.status(200).json({ success: true, message: 'Exam added succesfully', exam }))
         .catch((err) => next(err));
     } catch (error) {
       console.log(error);
@@ -213,5 +272,7 @@ export default function schoolAdminController(
     addNewClassRoom,
     getClassRoomDataByAcademicYear,
     addNewSubject,
+    getSubjectDataByAcademicYear,
+    addNewExam,
   };
 }

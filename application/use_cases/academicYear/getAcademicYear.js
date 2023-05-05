@@ -2,7 +2,7 @@ export default async function getAcademicYear(
   schoolID,
   dbRepositoryAcademicYear,
 ) {
-  const academicYearDbFormat = await dbRepositoryAcademicYear.getAcademicYear(schoolID);
+  const academicYearDbFormat = await dbRepositoryAcademicYear.getAllAcademicYear(schoolID);
 
   const formatDate = (date) => {
     const day = date.getDate();
