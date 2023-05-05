@@ -20,9 +20,17 @@ const classSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true,
     },
+    subjectSheet: {
+      type: [Schema.Types.ObjectId],
+      default: [],
+      ref: 'Subject',
+      required: true,
+    },
     studentSheet: {
       type: [Schema.Types.ObjectId],
       default: [],
+      ref: 'Student',
+      required: true,
     },
     status: {
       type: String,

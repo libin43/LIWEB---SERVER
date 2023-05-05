@@ -3,6 +3,9 @@ export default function errorHandlingMiddleware(err, req, res, next) {
   if (err.message === 'Invalid Credentials') {
     // Handle JSON parsing errors or syntax errors
     res.status(400).send({ error: 'Invalid Credentails' });
+  } else if (err.message === 'Exam date not within academic year') {
+    // Handle Otp Expire
+    res.status(400).send({ error: err.message });
   } else if (err.message === 'Otp Expired') {
     // Handle Otp Expire
     res.status(401).send({ error: 'Otp has been expired' });
@@ -28,11 +31,14 @@ export default function errorHandlingMiddleware(err, req, res, next) {
     // Handle Duplicate Classes
     res.status(409).send({ error: 'Classroom Already Exist in this academic year' });
   } else if (err.message === 'Student already active') {
-    // Handle Duplicate Classes
+    // Handle Duplicate Students
     res.status(409).send({ error: 'Student Already Exist' });
   } else if (err.message === 'Subject Already Exist') {
-    // Handle Duplicate Classes
-    res.status(409).send({ error: 'Subject Already Exist' });
+    // Handle Duplicate Subjects
+    res.status(409).send({ error: err.message });
+  } else if (err.message === 'Exam Already Exist') {
+    // Handle Duplicate Exams
+    res.status(409).send({ error: err.message });
   } else if (err.message === 'No Classroom Found') {
     // Handle Non-existing Classes
     res.status(404).send({ error: 'No classroom found' });

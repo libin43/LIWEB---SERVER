@@ -18,15 +18,28 @@ export default function subjectRepositoryMongoDB() {
     const newSubject = new SubjectModel({
       subjectName: subjectEntity.getSubjectName(),
       subjectCode: subjectEntity.getSubjectCode(),
-      subjectClasses: subjectEntity.getSubjectClasses(),
       academicYearID: subjectEntity.getAcademicYearID(),
       facultyID: subjectEntity.getFacultyID(),
       schoolID: subjectEntity.getSchoolID(),
     });
     return newSubject.save();
   };
+
+  const getSubjectByAcademicYearIdSchoolId = async (subjectEntity) => {
+    const subject = await SubjectModel.find(
+      {
+        $and: [
+          { academicYearID: subjectEntity.getAcademicYearID() },
+          { schoolID: subjectEntity.getSchoolID() },
+        ],
+      },
+    )
+      .select('subjectName subjectCode');
+    return subject;
+  };
   return {
     subjectExist,
     setNewSubject,
+    getSubjectByAcademicYearIdSchoolId,
   };
 }

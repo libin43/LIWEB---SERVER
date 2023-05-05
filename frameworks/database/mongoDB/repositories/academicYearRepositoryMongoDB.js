@@ -23,15 +23,20 @@ export default function academicYearRepositoryMongoDB() {
     return newAcademicYear.save();
   };
 
-  const getAcademicYear = async (schoolID) => {
+  const getAllAcademicYear = async (schoolID) => {
     const academicYear = await AcademicYearModel.find({ schoolID });
-    console.log(academicYear, 'its academiocyeare');
     return academicYear;
+  };
+
+  const getAcademicYearByID = async (academicYearID) => {
+    const academicYearData = await AcademicYearModel.findOne({ _id: academicYearID });
+    return academicYearData;
   };
 
   return {
     isAcademicYearValidLimit,
     setNewAcademicYear,
-    getAcademicYear,
+    getAllAcademicYear,
+    getAcademicYearByID,
   };
 }
