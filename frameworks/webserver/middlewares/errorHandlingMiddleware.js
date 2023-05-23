@@ -39,6 +39,9 @@ export default function errorHandlingMiddleware(err, req, res, next) {
   } else if (err.message === 'Exam Already Exist') {
     // Handle Duplicate Exams
     res.status(409).send({ error: err.message });
+  } else if (err.message === 'Exam Result Already Exists') {
+    // Handle Duplicate Exam Results
+    res.status(409).send({ error: err.message });
   } else if (err.message === 'No Classroom Found') {
     // Handle Non-existing Classes
     res.status(404).send({ error: 'No classroom found' });
@@ -47,6 +50,9 @@ export default function errorHandlingMiddleware(err, req, res, next) {
     const notFoundClasses = err.message.split(': ')[1];
     const errorMessage = `Class not found: ${notFoundClasses}`;
     res.status(404).send({ error: errorMessage });
+  } else if (err.message === 'Students Empty') {
+    // Handle class with no students
+    res.status(204).send({ students: 'Students are empty. Please add students!.' });
   } else {
     // Handle other errors
     res.status(500).send({ error: 'Something already broke!' });

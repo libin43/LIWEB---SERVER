@@ -27,7 +27,8 @@ const facultySchema = new Schema(
       required: true,
     },
     dateOfJoin: {
-      type: Date,
+      type: Schema.Types.ObjectId,
+      ref: 'Academic Year',
       required: true,
     },
     password: {
@@ -46,6 +47,7 @@ const facultySchema = new Schema(
     },
     schoolID: {
       type: Schema.Types.ObjectId,
+      ref: 'School Admin',
       required: true,
     },
     block: {

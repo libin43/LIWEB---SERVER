@@ -22,7 +22,6 @@ export default function studentController(
         phone,
         address,
         dateOfBirth,
-        dateOfJoin,
         academicYearID,
         className,
       } = req.body;
@@ -34,7 +33,6 @@ export default function studentController(
         phone,
         address,
         dateOfBirth,
-        dateOfJoin,
         academicYearID,
         className,
         schoolId,

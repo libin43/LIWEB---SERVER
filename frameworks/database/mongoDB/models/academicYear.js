@@ -14,6 +14,7 @@ const academicYearSchema = new Schema(
     },
     schoolID: {
       type: Schema.Types.ObjectId,
+      ref: 'School Admin',
       required: true,
     },
     status: {

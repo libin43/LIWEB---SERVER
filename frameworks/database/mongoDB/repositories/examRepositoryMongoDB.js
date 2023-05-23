@@ -14,6 +14,7 @@ export default function examRepositoryMongoDB() {
     );
     return exam;
   };
+
   const setNewExam = (examEntity) => {
     const newExam = new ExamModel({
       examName: examEntity.getExamName(),
@@ -25,8 +26,14 @@ export default function examRepositoryMongoDB() {
     return newExam.save();
   };
 
+  const getExamByExamId = async (examID) => {
+    const exam = await ExamModel.findOne({ _id: examID }).select('examName examDate');
+    return exam;
+  };
+
   return {
     examExist,
     setNewExam,
+    getExamByExamId,
   };
 }

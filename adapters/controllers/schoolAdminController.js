@@ -9,6 +9,11 @@ import addSubject from '../../application/use_cases/schoolAdmin/addSubject.js';
 import addSubjectToClasses from '../../application/use_cases/schoolAdmin/addSubjectToClasses.js';
 import getSubjectById from '../../application/use_cases/schoolAdmin/getSubjectById.js';
 import addExam from '../../application/use_cases/schoolAdmin/addExam.js';
+import getAllStudentsById from '../../application/use_cases/schoolAdmin/getAllStudentsById.js';
+import editStudentAccess from '../../application/use_cases/schoolAdmin/editStudentAccess.js';
+import getAllSubjectsById from '../../application/use_cases/schoolAdmin/getAllSubjectsById.js';
+import getAllStatistics from '../../application/use_cases/schoolAdmin/getAllStatistics.js';
+import getYearlyAdmissions from '../../application/use_cases/schoolAdmin/getYearlyAdmissions.js';
 
 export default function schoolAdminController(
   schoolAdminRepository,
@@ -23,6 +28,8 @@ export default function schoolAdminController(
   subjectImpl,
   examRepository,
   examImpl,
+  studentRepository,
+  studentImpl,
   authServiceInterface,
   authServiceImpl,
 ) {
@@ -32,6 +39,7 @@ export default function schoolAdminController(
   const dbRepositoryClass = classRepository(classImpl());
   const dbRepositorySubject = subjectRepository(subjectImpl());
   const dbRepositoryExam = examRepository(examImpl());
+  const dbRepositoryStudent = studentRepository(studentImpl());
   const authService = authServiceInterface(authServiceImpl());
   const addNewSchoolAdmin = async (req, res, next) => {
     try {
@@ -263,6 +271,130 @@ export default function schoolAdminController(
     }
   };
 
+  const getStudents = async (req, res, next) => {
+    try {
+      console.log('normal get student called');
+      const {
+        limit,
+        page,
+        classID,
+      } = req.query;
+      getAllStudentsById(
+        limit,
+        page,
+        classID,
+        dbRepositoryClass,
+        dbRepositoryStudent,
+      )
+        .then(({ students, classStrength }) => res.status(200).json({
+          success: true, message: 'Students fetched succesfully', students, classStrength,
+        }))
+        .catch((err) => next(err));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getStudentsBySearch = async (req, res, next) => {
+    try {
+      console.log('search get student called');
+      const {
+        limit,
+        page,
+        classID,
+        searchKey,
+      } = req.query;
+      getAllStudentsById(
+        limit,
+        page,
+        classID,
+        dbRepositoryClass,
+        dbRepositoryStudent,
+        searchKey,
+      )
+        .then(({ students, classStrength }) => res.status(200).json({
+          success: true, message: 'Students fetched succesfully', students, classStrength,
+        }))
+        .catch((err) => next(err));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const modifyStudentAccessControl = async (req, res, next) => {
+    try {
+      console.log(req.body, 'got in body');
+      const { status, studentID } = req.body;
+      editStudentAccess(
+        status,
+        studentID,
+        dbRepositoryStudent,
+      )
+        .then((updatedAccess) => res.status(200).json({ success: true, message: 'Student access modified', updatedAccess }))
+        .catch((err) => next(err));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getSubjects = async (req, res, next) => {
+    try {
+      console.log('normal get subject called');
+      const {
+        limit,
+        page,
+        classID,
+      } = req.query;
+      getAllSubjectsById(
+        limit,
+        page,
+        classID,
+        dbRepositoryClass,
+        dbRepositorySubject,
+      )
+        .then(({ subjects, totalSubjects }) => res.status(200).json({
+          success: true, message: 'Subjects fetched succesfully', subjects, totalSubjects,
+        }))
+        .catch((err) => next(err));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getStatistics = async (req, res, next) => {
+    try {
+      const schoolId = req.schoolAdmin;
+      getAllStatistics(
+        schoolId,
+        dbRepositoryStudent,
+        dbRepositoryFaculty,
+        dbRepositoryClass,
+      )
+        .then((totalStats) => res.status(200).json({ success: true, message: 'Statistics fetched succesfully', totalStats }))
+        .catch((err) => next(err));
+    } catch (error) {
+      res.status(500).json({ error: true, message: 'Internal Server Error' });
+    }
+  };
+
+  const getAdmissionGraph = async (req, res, next) => {
+    try {
+      console.log('get graph');
+      const { skip } = req.query;
+      console.log(skip, 'its hai');
+      const schoolId = req.schoolAdmin;
+      getYearlyAdmissions(
+        skip,
+        schoolId,
+        dbRepositorySchoolAdmin,
+      )
+        .then((admissions) => res.status(200).json({ success: true, message: 'Year wise admissions fetched succesfully', admissions }))
+        .catch((err) => next(err));
+    } catch (error) {
+      res.status(500).json({ error: true, message: 'Internal Server Error' });
+    }
+  };
+
   return {
     addNewSchoolAdmin,
     addNewAcademicYear,
@@ -274,5 +406,11 @@ export default function schoolAdminController(
     addNewSubject,
     getSubjectDataByAcademicYear,
     addNewExam,
+    getStudents,
+    getStudentsBySearch,
+    modifyStudentAccessControl,
+    getSubjects,
+    getStatistics,
+    getAdmissionGraph,
   };
 }

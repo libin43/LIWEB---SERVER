@@ -19,6 +19,36 @@ export default function classRespository(repository) {
     academicYearID,
   ) => repository.insertSubjectToMultipleClasses(subjectID, classID, academicYearID);
 
+  const getStudentsIdByClassId = (classID) => repository.getStudentsIdByClassId(classID);
+
+  const getSubjectsIdByClassId = (classID) => repository.getSubjectsIdByClassId(classID);
+
+  const getClassesBySubjectId = (subjectID) => repository.getClassesBySubjectId(subjectID);
+
+  const getStudentsByClassId = (classID) => repository.getStudentsByClassId(classID);
+
+  const getInChargeClassesByFacultyId = (
+    facultyID,
+    academicYearID,
+  ) => repository.getInChargeClassesByFacultyId(facultyID, academicYearID);
+
+  const getStudentsOverallExamResultByClassId = (
+    facultyID,
+    classID,
+  ) => repository.getStudentsOverallExamResultByClassId(facultyID, classID);
+
+  const updateCurrentClassStatus = (classID) => repository.updateCurrentClassStatus(classID);
+
+  const insertMultipleStudentsToClass = (
+    students,
+    classID,
+  ) => repository.insertMultipleStudentsToClass(
+    students,
+    classID,
+  );
+
+  const getClassStats = (schoolID) => repository.getClassStats(schoolID);
+
   return {
     classExist,
     setNewClassRoom,
@@ -26,5 +56,14 @@ export default function classRespository(repository) {
     insertStudentToClass,
     multipleClassExist,
     insertSubjectToMultipleClasses,
+    getStudentsIdByClassId,
+    getSubjectsIdByClassId,
+    getClassesBySubjectId,
+    getStudentsByClassId,
+    getInChargeClassesByFacultyId,
+    getStudentsOverallExamResultByClassId,
+    updateCurrentClassStatus,
+    insertMultipleStudentsToClass,
+    getClassStats,
   };
 }

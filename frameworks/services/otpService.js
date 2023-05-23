@@ -19,7 +19,21 @@ export default function otpServiceImpl() {
       to: `${email}`, // list of receivers
       subject: 'LIWEB - Manage School', // Subject line
       text: 'Otp', // plain text body
-      html: `<b>Your Otp is ${otp}</b>`, // html body
+      html: `<html>
+      <head>
+        <title>LIWEB - Manage School OTP</title>
+      </head>
+      <body>
+        <h1>LIWEB - Manage School OTP</h1>
+        <p>Dear User,</p>
+        <p>Your One-Time Password (OTP) for verification is: <strong>${otp}</strong></p>
+        <p>This otp is valid for 3 minutes.</p>
+        <p>Please enter this OTP to verify your account.</p>
+        <p>Thank you for using our service.</p>
+        <p>Best regards,</p>
+        <p>The LIWEB Team</p>
+      </body>
+    </html>`, // html body
     });
     console.log('message sent', info.messageId);
     return info.messageId;

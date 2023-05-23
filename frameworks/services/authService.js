@@ -14,12 +14,22 @@ export default function authServiceImpl() {
 
   const generateToken = (payload) => jwt.sign(payload, config.jwtSecret, { expiresIn: 360000 });
 
+  const generateAccessToken = (
+    payload,
+  ) => jwt.sign(payload, config.jwtSecret, { expiresIn: 36000 });
+
+  const generateRefreshToken = (
+    payload,
+  ) => jwt.sign(payload, config.jwtSecret, { expiresIn: 360000 });
+
   const verifyToken = (token) => jwt.verify(token, config.jwtSecret);
 
   return {
     encryptPassword,
     comparePassword,
     generateToken,
+    generateAccessToken,
+    generateRefreshToken,
     verifyToken,
   };
 }

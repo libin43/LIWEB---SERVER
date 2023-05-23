@@ -28,6 +28,7 @@ export default async function addExam(
 
   const [day, month, year] = examDate.split('/');
   const dateOfExam = new Date(Date.UTC(year, month - 1, day));
+  console.log(dateOfExam, 'date of exam');
 
   if (dateOfExam <= academicYearData.startDate || dateOfExam >= academicYearData.endDate) {
     console.log(dateOfExam, 'error in exam not within');
@@ -38,7 +39,7 @@ export default async function addExam(
     academicYearID,
     schoolID,
     subjectID,
-    examDate,
+    dateOfExam,
     examName,
   );
   const examExist = await dbRepositoryExam.examExist(newExam);

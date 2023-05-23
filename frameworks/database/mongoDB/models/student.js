@@ -30,7 +30,8 @@ const studentSchema = new Schema({
     required: true,
   },
   dateOfJoin: {
-    type: Date,
+    type: Schema.Types.ObjectId,
+    ref: 'Academic Year',
     required: true,
   },
   password: {
@@ -49,11 +50,12 @@ const studentSchema = new Schema({
   },
   schoolID: {
     type: Schema.Types.ObjectId,
+    ref: 'School Admin',
     required: true,
   },
   block: {
-    type: String,
-    default: 'false',
+    type: Boolean,
+    default: false,
   },
   role: {
     type: String,

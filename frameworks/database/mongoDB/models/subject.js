@@ -10,11 +10,6 @@ const subjectSchema = new Schema({
     type: String,
     required: true,
   },
-  subjectClasses: {
-    type: [Schema.Types.ObjectId],
-    default: [],
-    ref: 'Class',
-  },
   academicYearID: {
     type: Schema.Types.ObjectId,
     ref: 'Academic Year',

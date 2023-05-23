@@ -8,7 +8,6 @@ export default async function addStudent(
   phone,
   address,
   dateOfBirth,
-  dateOfJoin,
   academicYearID,
   className,
   schoolID,
@@ -28,9 +27,7 @@ export default async function addStudent(
   const classID = classExist._id;
   const hashPassword = await authService.encryptPassword(dateOfBirth);
   const dobParts = dateOfBirth.split('/');
-  const dojParts = dateOfJoin.split('/');
   const dateOfBirthObject = new Date(dobParts[2], dobParts[1], dobParts[0]);
-  const dateOfJoinObject = new Date(dojParts[2], dojParts[1], dojParts[0]);
 
   const newStudent = student(
     studentName,
@@ -39,7 +36,7 @@ export default async function addStudent(
     phone,
     address,
     dateOfBirthObject,
-    dateOfJoinObject,
+    academicYearID,
     hashPassword,
     schoolID,
   );

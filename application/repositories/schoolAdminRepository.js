@@ -11,10 +11,13 @@ export default function schoolAdminRepostiory(repository) {
 
   const getSchoolAdminById = (id) => repository.getSchoolAdminById(id);
 
+  const getYearlyAdmissions = (schoolID, skip) => repository.getYearlyAdmissions(schoolID, skip);
+
   return {
     signup,
     getSchoolAdminByEmail,
     setSchoolAdminOtp,
     getSchoolAdminById,
+    getYearlyAdmissions,
   };
 }

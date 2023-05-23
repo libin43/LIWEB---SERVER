@@ -10,14 +10,17 @@ const classSchema = new Schema(
     },
     academicYearID: {
       type: Schema.Types.ObjectId,
+      ref: 'Academic Year',
       required: true,
     },
     facultyID: {
       type: Schema.Types.ObjectId,
+      ref: 'Faculty',
       required: true,
     },
     schoolID: {
       type: Schema.Types.ObjectId,
+      ref: 'School Admin',
       required: true,
     },
     subjectSheet: {
@@ -26,12 +29,19 @@ const classSchema = new Schema(
       ref: 'Subject',
       required: true,
     },
-    studentSheet: {
-      type: [Schema.Types.ObjectId],
-      default: [],
-      ref: 'Student',
-      required: true,
-    },
+    studentSheet: [
+      {
+        studentID: {
+          type: Schema.Types.ObjectId,
+          ref: 'Student',
+          required: true,
+        },
+        isMoved: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
     status: {
       type: String,
       default: 'active',
