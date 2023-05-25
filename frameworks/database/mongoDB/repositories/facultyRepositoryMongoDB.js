@@ -28,7 +28,7 @@ export default function facultyRepositoryMongoDB() {
   };
 
   const getFacultyByID = async (facultyID) => {
-    const faculty = await FacultyModel.findOne({ _id: facultyID }).select('facultyName schoolID role');
+    const faculty = await FacultyModel.findOne({ _id: facultyID }).select('facultyName facultyImage email phone schoolID role');
     return faculty;
   };
 
@@ -98,15 +98,24 @@ export default function facultyRepositoryMongoDB() {
       const { classIncharge, classStrength } = element;
       console.log(classIncharge, 'inchage');
       const classSize = classStrength.length;
-      console.log(classSize,'./k');
+      console.log(classSize, './k');
       return {
         name: classIncharge,
         value: classSize,
       };
     });
-    console.log(classSizes,'clas sizes');
+    console.log(classSizes, 'clas sizes');
 
     return { classIncharges, classSizes };
+  };
+
+  const updateFacultyImage = async (facultyID, imgName) => {
+    const updateStatus = await FacultyModel.findByIdAndUpdate(
+      facultyID,
+      { facultyImage: imgName },
+      { new: true },
+    );
+    return updateStatus;
   };
   return {
     signup,
@@ -117,5 +126,6 @@ export default function facultyRepositoryMongoDB() {
     getAllSubjectsByAcademicYearID,
     getAllClassesToTeachByAcademicYearID,
     getAllClassInchargesByAcademicYearID,
+    updateFacultyImage,
   };
 }

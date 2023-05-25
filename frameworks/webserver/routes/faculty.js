@@ -14,6 +14,11 @@ import examResultsRepositoryMongoDB from '../../database/mongoDB/repositories/ex
 import authServiceInterface from '../../../application/services/authServiceInterface.js';
 import authServiceImpl from '../../services/authService.js';
 import authMiddleware from '../middlewares/authMiddleware.js';
+import upload from '../middlewares/multer.js';
+import storageServiceS3Interface from '../../../application/services/storageServiceInterface.js';
+import storageServiceS3 from '../../services/storageService.js';
+import imageResizeServiceInterface from '../../../application/services/imageResizeServiceInterface.js';
+import imageResizeService from '../../services/imageResizeService.js';
 
 export default function facultyRouter(express) {
   const router = express.Router();
@@ -31,6 +36,10 @@ export default function facultyRouter(express) {
     academicYearRepositoryMongoDB,
     examResultRepository,
     examResultsRepositoryMongoDB,
+    imageResizeServiceInterface,
+    imageResizeService,
+    storageServiceS3Interface,
+    storageServiceS3,
     authServiceInterface,
     authServiceImpl,
   );
@@ -51,5 +60,8 @@ export default function facultyRouter(express) {
 
   // PUT endpoints
   router.route('/initiate_student_promotion').put(authMiddleware, controller.promoteStudents);
+
+  // PATCH endpoints
+  router.route('/edit_profile').patch(authMiddleware, upload.single('facultyImage'), controller.uploadProfilePicture);
   return router;
 }

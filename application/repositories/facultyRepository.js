@@ -16,6 +16,10 @@ export default function facultyRepository(repository) {
     facultyID,
     academicYearID,
   ) => repository.getAllClassInchargesByAcademicYearID(facultyID, academicYearID);
+  const updateFacultyImage = (
+    facultyID,
+    imgName,
+  ) => repository.updateFacultyImage(facultyID, imgName);
 
   return {
     signup,
@@ -26,5 +30,6 @@ export default function facultyRepository(repository) {
     getAllSubjectsByAcademicYearID,
     getAllClassesToTeachByAcademicYearID,
     getAllClassInchargesByAcademicYearID,
+    updateFacultyImage,
   };
 }

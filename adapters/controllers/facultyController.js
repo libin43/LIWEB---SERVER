@@ -1,5 +1,6 @@
 import addFaculty from '../../application/use_cases/faculty/add.js';
 import addExamResult from '../../application/use_cases/faculty/addExamResult.js';
+import addProfilePicture from '../../application/use_cases/faculty/addProfilePicture.js';
 import getAcademicYearInFaculty from '../../application/use_cases/faculty/getAcademicYearInFaculty.js';
 import getClassesByAcademicYearId from '../../application/use_cases/faculty/getClassesByAcademicYearId.js';
 import getClassesBySubjectId from '../../application/use_cases/faculty/getClassesBySubjectId.js';
@@ -26,6 +27,10 @@ export default function facultyController(
   academicYearImpl,
   examResultRepository,
   examResultImpl,
+  imageResizeServiceInterface,
+  imageResizeServiceImpl,
+  storageServiceS3Interface,
+  storageServiceS3Impl,
   authServiceInterface,
   authServiceImpl,
 ) {
@@ -35,6 +40,8 @@ export default function facultyController(
   const dbRepositoryExam = examRepository(examRepositoryImpl());
   const dbRepositoryAcademicYear = academicYearRepository(academicYearImpl());
   const dbRepositoryExamResult = examResultRepository(examResultImpl());
+  const imageResizeService = imageResizeServiceInterface(imageResizeServiceImpl());
+  const s3Service = storageServiceS3Interface(storageServiceS3Impl());
   const authService = authServiceInterface(authServiceImpl());
   const addNewFaculty = async (req, res, next) => {
     try {
@@ -71,6 +78,7 @@ export default function facultyController(
       getFacultyInfo(
         facultyId,
         dbRepositoryFaculty,
+        s3Service,
       )
         .then((faculty) => res.status(200).json({ success: true, message: 'Faculty info fetched successfully', faculty }))
         .catch((err) => next(err));
@@ -255,6 +263,27 @@ export default function facultyController(
     }
   };
 
+  const uploadProfilePicture = async (req, res, next) => {
+    try {
+      console.log('fac profile');
+      console.log(req.file, 'file to come');
+      const file = req.file;
+      console.log(req.body, 'any body');
+      const facultyID = req.faculty;
+      addProfilePicture(
+        facultyID,
+        file,
+        imageResizeService,
+        s3Service,
+        dbRepositoryFaculty,
+      )
+        .then((response) => res.status(200).json({ success: true, message: 'Faculty profile updated successfully', response }))
+        .catch((err) => next(err));
+    } catch (error) {
+      res.status(500).json({ error: true, message: 'Internal Server Error' });
+    }
+  };
+
   return {
     addNewFaculty,
     facultyInfo,
@@ -268,5 +297,6 @@ export default function facultyController(
     facultyGetClassesByYear,
     promoteStudents,
     facultyStatistics,
+    uploadProfilePicture,
   };
 }

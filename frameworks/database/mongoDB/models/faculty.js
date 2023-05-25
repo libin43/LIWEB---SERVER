@@ -21,6 +21,7 @@ const facultySchema = new Schema(
     },
     facultyImage: {
       type: String,
+      default: 'Null',
     },
     dateOfBirth: {
       type: Date,

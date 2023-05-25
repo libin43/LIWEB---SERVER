@@ -1,7 +1,6 @@
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
-
 import config from '../../config/config.js';
 
 export default function expressConfig(app) {
