@@ -17,8 +17,9 @@
     "nodemon": "^2.0.22"
   },
   "dependencies": {
+    "@aws-sdk/client-cloudfront": "^3.341.0",
     "@aws-sdk/client-s3": "^3.338.0",
-    "@aws-sdk/s3-request-presigner": "^3.338.0",
+    "@aws-sdk/cloudfront-signer": "^3.341.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",

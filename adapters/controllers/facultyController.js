@@ -1,6 +1,7 @@
 import addFaculty from '../../application/use_cases/faculty/add.js';
 import addExamResult from '../../application/use_cases/faculty/addExamResult.js';
 import addProfilePicture from '../../application/use_cases/faculty/addProfilePicture.js';
+import deleteProfilePicture from '../../application/use_cases/faculty/deleteProfilePicture.js';
 import getAcademicYearInFaculty from '../../application/use_cases/faculty/getAcademicYearInFaculty.js';
 import getClassesByAcademicYearId from '../../application/use_cases/faculty/getClassesByAcademicYearId.js';
 import getClassesBySubjectId from '../../application/use_cases/faculty/getClassesBySubjectId.js';
@@ -13,6 +14,7 @@ import getStudentOverallExamResult from '../../application/use_cases/faculty/get
 import getSubject from '../../application/use_cases/faculty/getSubject.js';
 import getStudents from '../../application/use_cases/faculty/getSudents.js';
 import moveStudents from '../../application/use_cases/faculty/moveStudents.js';
+import updateFacultyProfile from '../../application/use_cases/faculty/updateFacultyProfile.js';
 
 export default function facultyController(
   facultyRepository,
@@ -31,6 +33,8 @@ export default function facultyController(
   imageResizeServiceImpl,
   storageServiceS3Interface,
   storageServiceS3Impl,
+  cloudfrontServiceInterface,
+  cloudfrontServiceImpl,
   authServiceInterface,
   authServiceImpl,
 ) {
@@ -42,6 +46,8 @@ export default function facultyController(
   const dbRepositoryExamResult = examResultRepository(examResultImpl());
   const imageResizeService = imageResizeServiceInterface(imageResizeServiceImpl());
   const s3Service = storageServiceS3Interface(storageServiceS3Impl());
+  const cloudfrontService = cloudfrontServiceInterface(cloudfrontServiceImpl());
+  console.log(cloudfrontService);
   const authService = authServiceInterface(authServiceImpl());
   const addNewFaculty = async (req, res, next) => {
     try {
@@ -79,6 +85,7 @@ export default function facultyController(
         facultyId,
         dbRepositoryFaculty,
         s3Service,
+        cloudfrontService,
       )
         .then((faculty) => res.status(200).json({ success: true, message: 'Faculty info fetched successfully', faculty }))
         .catch((err) => next(err));
@@ -275,6 +282,42 @@ export default function facultyController(
         file,
         imageResizeService,
         s3Service,
+        cloudfrontService,
+        dbRepositoryFaculty,
+      )
+        .then((response) => res.status(200).json({ success: true, message: 'Faculty profile updated successfully', response }))
+        .catch((err) => next(err));
+    } catch (error) {
+      res.status(500).json({ error: true, message: 'Internal Server Error' });
+    }
+  };
+
+  const removeImage = async (req, res, next) => {
+    try {
+      const facultyID = req.faculty;
+      const { fileName } = req.params;
+      deleteProfilePicture(
+        facultyID,
+        fileName,
+        s3Service,
+        cloudfrontService,
+        dbRepositoryFaculty,
+      )
+        .then((response) => res.status(200).json({ success: true, message: 'Faculty image removed successfully', response }))
+        .catch((err) => next(err));
+    } catch (error) {
+      res.status(500).json({ error: true, message: 'Internal Server Error' });
+    }
+  };
+
+  const facultyUpdateProfile = async (req, res, next) => {
+    try {
+      const facultyID = req.faculty;
+      const facultyData = req.body;
+      console.log(facultyData, '...');
+      updateFacultyProfile(
+        facultyID,
+        facultyData,
         dbRepositoryFaculty,
       )
         .then((response) => res.status(200).json({ success: true, message: 'Faculty profile updated successfully', response }))
@@ -298,5 +341,7 @@ export default function facultyController(
     promoteStudents,
     facultyStatistics,
     uploadProfilePicture,
+    removeImage,
+    facultyUpdateProfile,
   };
 }

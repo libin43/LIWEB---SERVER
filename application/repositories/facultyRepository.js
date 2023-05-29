@@ -21,6 +21,15 @@ export default function facultyRepository(repository) {
     imgName,
   ) => repository.updateFacultyImage(facultyID, imgName);
 
+  const deleteFacultyImage = (facultyID) => repository.deleteFacultyImage(facultyID);
+
+  const updateProfile = (
+    facultyID,
+    facultyName,
+    email,
+    phone,
+  ) => repository.updateProfile(facultyID, facultyName, email, phone);
+
   return {
     signup,
     getFacultyName,
@@ -31,5 +40,7 @@ export default function facultyRepository(repository) {
     getAllClassesToTeachByAcademicYearID,
     getAllClassInchargesByAcademicYearID,
     updateFacultyImage,
+    deleteFacultyImage,
+    updateProfile,
   };
 }

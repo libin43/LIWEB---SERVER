@@ -19,6 +19,8 @@ import storageServiceS3Interface from '../../../application/services/storageServ
 import storageServiceS3 from '../../services/storageService.js';
 import imageResizeServiceInterface from '../../../application/services/imageResizeServiceInterface.js';
 import imageResizeService from '../../services/imageResizeService.js';
+import cloudfrontServiceInterface from '../../../application/services/cloudfrontServiceInterface.js';
+import cloudfrontService from '../../services/cloudfrontService.js';
 
 export default function facultyRouter(express) {
   const router = express.Router();
@@ -40,6 +42,8 @@ export default function facultyRouter(express) {
     imageResizeService,
     storageServiceS3Interface,
     storageServiceS3,
+    cloudfrontServiceInterface,
+    cloudfrontService,
     authServiceInterface,
     authServiceImpl,
   );
@@ -62,6 +66,11 @@ export default function facultyRouter(express) {
   router.route('/initiate_student_promotion').put(authMiddleware, controller.promoteStudents);
 
   // PATCH endpoints
-  router.route('/edit_profile').patch(authMiddleware, upload.single('facultyImage'), controller.uploadProfilePicture);
+  router.route('/upload_pro_pic').patch(authMiddleware, upload.single('facultyImage'), controller.uploadProfilePicture);
+  router.route('/update_profile').patch(authMiddleware, controller.facultyUpdateProfile);
+
+  // DELETE endpoints
+  router.route('/remove_pro_pic/:fileName').delete(authMiddleware, controller.removeImage);
+
   return router;
 }

@@ -117,6 +117,26 @@ export default function facultyRepositoryMongoDB() {
     );
     return updateStatus;
   };
+
+  const deleteFacultyImage = async (facultyID) => {
+    const updateStatus = await FacultyModel.findByIdAndUpdate(
+      facultyID,
+      { facultyImage: null },
+      { new: true },
+    )
+      .select('facultyImage');
+    return updateStatus;
+  };
+
+  const updateProfile = async (facultyID, facultyName, email, phone) => {
+    const updateStatus = await FacultyModel.findByIdAndUpdate(
+      facultyID,
+      { facultyName },
+      { email },
+      { phone },
+    );
+    return updateStatus;
+  };
   return {
     signup,
     getFacultyName,
@@ -127,5 +147,7 @@ export default function facultyRepositoryMongoDB() {
     getAllClassesToTeachByAcademicYearID,
     getAllClassInchargesByAcademicYearID,
     updateFacultyImage,
+    deleteFacultyImage,
+    updateProfile,
   };
 }
