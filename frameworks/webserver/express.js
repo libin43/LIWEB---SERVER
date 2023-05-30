@@ -26,6 +26,10 @@ export default function expressConfig(app) {
 
   app.use(morgan('combined'));
 
+  app.all('*', (req, res) => {
+    res.send('Unauthorized');
+  });
+
   const PORT = config.port;
 
   app.listen(PORT, () => {
