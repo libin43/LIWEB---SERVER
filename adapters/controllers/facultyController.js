@@ -47,7 +47,6 @@ export default function facultyController(
   const imageResizeService = imageResizeServiceInterface(imageResizeServiceImpl());
   const s3Service = storageServiceS3Interface(storageServiceS3Impl());
   const cloudfrontService = cloudfrontServiceInterface(cloudfrontServiceImpl());
-  console.log(cloudfrontService);
   const authService = authServiceInterface(authServiceImpl());
   const addNewFaculty = async (req, res, next) => {
     try {
