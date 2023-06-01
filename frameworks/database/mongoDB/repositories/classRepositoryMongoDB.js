@@ -159,9 +159,14 @@ export default function classRepositoryMongoDB() {
   };
 
   const insertMultipleStudentsToClass = async (students, classID) => {
+    console.log(students, 'jfdkjflsd');
+    const ObjectIdStudents = students.map((id) => ({
+      studentID: id,
+      isMoved: false,
+    }));
     const insert = await ClassModel.updateOne(
       { _id: classID },
-      { $push: { studentSheet: { $each: students } } },
+      { $push: { studentSheet: { $each: ObjectIdStudents } } },
     );
     return insert;
   };
@@ -175,6 +180,29 @@ export default function classRepositoryMongoDB() {
     })
       .select('className').count();
     return totalClass;
+  };
+
+  const getClassDetail = async (classID) => {
+    const classData = await ClassModel.findOne({
+      _id: classID,
+    }).select('className status');
+    return classData;
+  };
+
+  const updateClassStudentStatus = async (students, classID) => {
+    console.log(students, 'in mongo');
+    const ObjectIdStudents = students.map((id) => new mongoose.Types.ObjectId(id));
+
+    const status = await ClassModel.updateOne(
+      { _id: classID },
+      { $set: { 'studentSheet.$[student].isMoved': false } },
+      {
+        arrayFilters: [
+          { 'student.studentID': { $in: ObjectIdStudents } },
+        ],
+      },
+    );
+    return status;
   };
 
   return {
@@ -193,5 +221,7 @@ export default function classRepositoryMongoDB() {
     updateCurrentClassStatus,
     insertMultipleStudentsToClass,
     getClassStats,
+    getClassDetail,
+    updateClassStudentStatus,
   };
 }

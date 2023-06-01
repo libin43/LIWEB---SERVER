@@ -51,12 +51,13 @@ export default function facultyRouter(express) {
   router.route('/get_info').get(authMiddleware, controller.facultyInfo);
   router.route('/get_academic_year').get(authMiddleware, controller.facultyGetAcademicYear);
   router.route('/exam_schedule/:id').get(authMiddleware, controller.facultyGetScheduledExams);
-  router.route('/get_exam_conducted_classes/:id').get(authMiddleware, controller.facultyGetExamConductedClasses);
+  router.route('/get_exam_conducted_classes/subject').get(authMiddleware, controller.facultyGetExamConductedClasses);
   router.route('/students_in_class/students').get(authMiddleware, controller.facutlyGetStudentsInClass);
   router.route('/class_view_incharge/:id').get(authMiddleware, controller.facultyGetClassInCharge);
   router.route('/class_student_overall_exam_result/:id').get(authMiddleware, controller.facultyGetOverallStudentResult);
   router.route('/get_class_room/:id').get(authMiddleware, controller.facultyGetClassesByYear);
   router.route('/dashboard_statistics/:id').get(authMiddleware, controller.facultyStatistics);
+  router.route('/subject_exam_result/students').get(authMiddleware, controller.facultyViewSubjectMarks);
 
   // POST enpdpoints
   router.route('/addFaculty').post(authMiddleware, controller.addNewFaculty);

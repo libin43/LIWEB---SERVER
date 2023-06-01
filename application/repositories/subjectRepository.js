@@ -23,6 +23,7 @@ export default function subjectRepository(repository) {
     facultyID,
     academicYearID,
   ) => repository.getExamsOfFacultySubjects(facultyID, academicYearID);
+  const getSubjectDetail = (subjectID) => repository.getSubjectDetail(subjectID);
   return {
     subjectExist,
     setNewSubject,
@@ -31,5 +32,6 @@ export default function subjectRepository(repository) {
     getSubjectsByName,
     getSubjectsByFacultyId,
     getExamsOfFacultySubjects,
+    getSubjectDetail,
   };
 }

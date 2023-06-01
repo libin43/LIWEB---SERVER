@@ -144,6 +144,13 @@ export default function subjectRepositoryMongoDB() {
     ]);
     return subjects;
   };
+
+  const getSubjectDetail = async (subjectID) => {
+    const subject = await SubjectModel.findOne({
+      _id: subjectID,
+    }).select('subjectName subjectCode');
+    return subject;
+  };
   return {
     subjectExist,
     setNewSubject,
@@ -152,5 +159,6 @@ export default function subjectRepositoryMongoDB() {
     getSubjectsByName,
     getSubjectsByFacultyId,
     getExamsOfFacultySubjects,
+    getSubjectDetail,
   };
 }

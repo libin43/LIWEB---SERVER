@@ -12,6 +12,7 @@ import getScheduledExamsInFaculty from '../../application/use_cases/faculty/getS
 import getStatistics from '../../application/use_cases/faculty/getStatistics.js';
 import getStudentOverallExamResult from '../../application/use_cases/faculty/getStudentOverallExamResult.js';
 import getSubject from '../../application/use_cases/faculty/getSubject.js';
+import getSubjectExamMarks from '../../application/use_cases/faculty/getSubjectExamMarks.js';
 import getStudents from '../../application/use_cases/faculty/getSudents.js';
 import moveStudents from '../../application/use_cases/faculty/moveStudents.js';
 import updateFacultyProfile from '../../application/use_cases/faculty/updateFacultyProfile.js';
@@ -129,10 +130,14 @@ export default function facultyController(
 
   const facultyGetExamConductedClasses = async (req, res, next) => {
     try {
-      const subjectID = req.params.id;
+      console.log(req.query);
+      const { examId, subjectId } = req.query;
+      console.log(subjectId, examId, 'kalfdjasj');
       getClassesBySubjectId(
-        subjectID,
+        subjectId,
+        examId,
         dbRepositoryClass,
+        dbRepositoryExamResult,
       )
         .then((classes) => res.status(200).json({ success: true, message: 'Examination conducted classes fetched successfully', classes }))
         .catch((err) => next(err));
@@ -326,6 +331,27 @@ export default function facultyController(
     }
   };
 
+  const facultyViewSubjectMarks = async (req, res, next) => {
+    try {
+      const { classId, subjectId, examId } = req.query;
+      console.log(classId, subjectId, examId);
+
+      getSubjectExamMarks(
+        classId,
+        subjectId,
+        examId,
+        dbRepositoryClass,
+        dbRepositorySubject,
+        dbRepositoryExam,
+        dbRepositoryExamResult,
+      )
+        .then((response) => res.status(200).json({ success: true, message: 'Faculty subject exam fetched successfully', response }))
+        .catch((err) => next(err));
+    } catch (error) {
+      res.status(500).json({ error: true, message: 'Internal Server Error' });
+    }
+  };
+
   return {
     addNewFaculty,
     facultyInfo,
@@ -342,5 +368,6 @@ export default function facultyController(
     uploadProfilePicture,
     removeImage,
     facultyUpdateProfile,
+    facultyViewSubjectMarks,
   };
 }

@@ -49,6 +49,13 @@ export default function classRespository(repository) {
 
   const getClassStats = (schoolID) => repository.getClassStats(schoolID);
 
+  const getClassDetail = (classID) => repository.getClassDetail(classID);
+
+  const updateClassStudentStatus = (
+    students,
+    classID,
+  ) => repository.updateClassStudentStatus(students, classID);
+
   return {
     classExist,
     setNewClassRoom,
@@ -65,5 +72,7 @@ export default function classRespository(repository) {
     updateCurrentClassStatus,
     insertMultipleStudentsToClass,
     getClassStats,
+    getClassDetail,
+    updateClassStudentStatus,
   };
 }
